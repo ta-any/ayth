@@ -3,10 +3,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
 
     const user = useState('user');
     const protectedRoutes = ['/dashboard'];
-
     if (!protectedRoutes.includes(to.path)) return;
-
-
     if (!user.value) {
         const userFromStorage = localStorage.getItem('user');
         if (userFromStorage) {
@@ -20,5 +17,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
         }
 
         return navigateTo('/login');
+    }
+
+    if (to.path === '/') {
+        return navigateTo('/login')
     }
 });
