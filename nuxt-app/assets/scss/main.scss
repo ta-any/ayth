@@ -1,0 +1,193 @@
+.data-table {
+  font-family: Arial, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $base-padding;
+
+  .filters {
+    display: flex;
+    gap: 15px;
+    margin-bottom: $base-padding;
+    flex-wrap: wrap;
+
+    .search-input, .status-filter {
+      padding: $small-padding;
+      border: 1px solid $border-color;
+      border-radius: $base-border-radius;
+      font-size: $small-font-size;
+    }
+
+    .search-input {
+      flex-grow: 1;
+      min-width: 250px;
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: $base-padding;
+
+    th, td {
+      border: 1px solid $border-color;
+      padding: $small-padding;
+      text-align: left;
+
+    }
+
+    th {
+      background-color: $light-gray;
+      cursor: pointer;
+      position: relative;
+
+      .column-header{
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        font-size: $small-font-size;
+      }
+
+      &:hover {
+        background-color: $hover-gray;
+      }
+    }
+  }
+
+  .status-badge {
+    padding: $badge-padding;
+    border-radius: $badge-border-radius;
+    font-size: $badge-font-size;
+    font-weight: bold;
+
+    &.active {
+      background-color: $success-bg;
+      color: $success-text;
+    }
+
+    &.out_of_stock {
+      background-color: $danger-bg;
+      color: $danger-text;
+    }
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: $base-padding;
+
+    .page-btn {
+      padding: $page-btn-padding;
+      background-color: $page-btn-bg;
+      border: 1px solid $border-color;
+      border-radius: $base-border-radius;
+      cursor: pointer;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+    }
+  }
+
+  .example_email {
+    margin-top: -10px;
+    font-size: $small-font-size;
+    color: $text-gray;
+  }
+
+  @media (max-width: 768px) {
+    .filters {
+      flex-direction: column;
+    }
+
+    table {
+      display: block;
+      overflow-x: auto;
+    }
+  }
+}
+
+.dashboard{
+  display: flex;
+  justify-content: space-between;
+  font-family: Arial, sans-serif;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: $base-padding;
+
+  .btn-exit {
+    width: 150px;
+    padding: $small-padding;
+    background-color: $text-gray;
+    color: $white;
+    border: none;
+    border-radius: $base-border-radius;
+    font-size: $base-font-size;
+    cursor: pointer;
+    margin-top: $base-font-size;
+
+    &:hover {
+      background-color: adjust-color($text-gray, $lightness: -$hover-darken-amount);
+    }
+
+    &:disabled {
+      background-color: $disabled-bg;
+      cursor: not-allowed;
+    }
+  }
+}
+
+.login-container {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border: 1px solid $border-color;
+  border-radius: $login-border-radius;
+  box-shadow: $box-shadow;
+
+  h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+  }
+
+  .form-group {
+    margin-bottom: $base-font-size;
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid $border-color;
+      border-radius: $base-border-radius;
+      font-size: $base-font-size;
+    }
+  }
+
+  button {
+    width: 100%;
+    padding: $button-padding;
+    background-color: $primary-color;
+    color: $white;
+    border: none;
+    border-radius: $base-border-radius;
+    font-size: $base-font-size;
+    cursor: pointer;
+    margin-top: $base-font-size;
+
+    &:hover {
+      background-color: adjust-color($primary-color, $lightness: -$hover-darken-amount);
+    }
+
+    &:disabled {
+      background-color: $disabled-bg;
+      cursor: not-allowed;
+    }
+  }
+}

@@ -1,4 +1,5 @@
 import db from './users.json'
+import posts from './product.json'
 
 export default defineEventHandler(async (event) => {
     const body = await readBody(event)
@@ -14,12 +15,13 @@ export default defineEventHandler(async (event) => {
         })
     }
 
-    // In a real app, you would generate a token here
     return {
         user: {
-            id: 123,
-            username: "iiii",
-            email: "email"
+            name: user.name,
+            username: user.surname,
+            credentials: user.credentials,
+            active: user.active,
+            product: posts
         }
     }
 })

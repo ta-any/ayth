@@ -1,13 +1,24 @@
-export default defineNuxtRouteMiddleware((to) => {
-    const user = useState('user')
+export default defineNuxtRouteMiddleware(async (to) => {
+    if (process.server) return;
 
-    // Redirect to login if not authenticated and trying to access protected page
-    if (!user.value && to.path !== '/login') {
-        return navigateTo('/login')
-    }
+    const user = useState('user');
+    const protectedRoutes = ['/dashboard'];
 
-    // Redirect to dashboard if already logged in
-    if (user.value && to.path === '/login') {
-        return navigateTo('/dashboard')
+    if (!protectedRoutes.includes(to.path)) return;
+
+
+    if (!user.value) {
+        const userFromStorage = localStorage.getItem('user');
+        if (userFromStorage) {
+            try {
+                user.value = JSON.parse(userFromStorage);
+                return;
+            } catch (e) {
+                console.error('Ошибка парсинга пользователя', e);
+                localStorage.removeItem('user');
+            }
+        }
+
+        return navigateTo('/login');
     }
-})
+});

@@ -1,21 +1,38 @@
 <template>
-  <div>
+  <div class="dashboard">
     <h1>Welcome, {{ user?.username }}!</h1>
-    <p>Email: {{ user?.email }}</p>
-    <button @click="handleLogout">Logout</button>
+    <button class="btn-exit" @click="handleLogout">Выход</button>
   </div>
+  <div class="data-table-container">
+    <Table />
+  </div>
+
 </template>
 
-<script setup>
-const user = useState('user')
+<script setup lang="ts">
+import Table from "~/components/table_order.vue";
+import { useState } from '#app';
+import { navigateTo } from '#app';
 
-// Redirect if not logged in
-if (!user.value) {
-  navigateTo('/login')
+interface UserCredentials {
+  username: string;
+  passphrase: string;
 }
 
-const handleLogout = () => {
-  useState('user', () => null)
-  navigateTo('/login')
+interface User {
+  name: string;
+  surname: string;
+  credentials: UserCredentials;
+  active: boolean;
+  created: string;
+  _comment?: string;
 }
+
+const user = useState<User>('user');
+
+const handleLogout = (): void => {
+  user.value = null;
+  localStorage.removeItem('user');
+  navigateTo('/login');
+};
 </script>

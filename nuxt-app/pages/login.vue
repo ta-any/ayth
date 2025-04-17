@@ -3,7 +3,9 @@
     <h1>Login</h1>
     <form @submit.prevent="handleLogin">
       <div class="form-group">
+
         <label for="username">Email:</label>
+        <p class="example_email">Например: david.jones@creds.com</p>
         <input
             id="username"
             v-model="form.username"
@@ -30,97 +32,74 @@
   </div>
 </template>
 
-<script setup>
-const form = ref({
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
+import { navigateTo, useState, useFetch } from '#imports';
+
+interface UserCredentials {
+  username: string;
+  passphrase: string;
+}
+
+interface User {
+  name: string;
+  surname: string;
+  credentials: UserCredentials;
+  active: boolean;
+  created: string;
+  _comment?: string;
+}
+
+interface LoginForm {
+  username: string;
+  password: string;
+}
+
+interface LoginResponse {
+  user: User;
+}
+
+const form = ref<LoginForm>({
   username: '',
   password: ''
-})
+});
 
-const loading = ref(false)
-const error = ref('')
+onMounted(() => {
+  const user = useState<User | null>('user');
+  const userFromStorage = localStorage.getItem('user');
 
-const handleLogin = async () => {
-  error.value = ''
-  loading.value = true
+  if (user.value || userFromStorage) {
+    navigateTo('/dashboard');
+  }
+});
+
+const loading = ref<boolean>(false);
+const error = ref<string>('');
+
+const handleLogin = async (): Promise<void> => {
+  error.value = '';
+  loading.value = true;
 
   try {
-    const { data, error: apiError } = await useFetch('/api/login', {
+    const response = await $fetch<LoginResponse>('/api/login', {
       method: 'POST',
       body: form.value
-    })
+    });
+    console.log(response);
 
-    if (apiError.value) {
-      throw new Error(apiError.value.data?.statusMessage || 'Login failed')
-    }
+    const userData = response.user;
+    useState('user', () => userData);
+    localStorage.setItem('user', JSON.stringify(userData));
 
-    console.log('Logged in user:', data.value.user)
+    await navigateTo('/dashboard', { replace: true });
 
-    useState('user', () => data.value.user)
-
-    await navigateTo('/dashboard')
-
-  } catch (err) {
-    error.value = err.message || 'Login failed. Please try again.'
+  } catch (err: any) {
+    error.value = err.message || 'Login failed. Please try again.';
   } finally {
-    loading.value = false
+    loading.value = false;
     form.value.username = '';
-    form.value.password = "";
+    form.value.password = '';
   }
-}
+};
 </script>
-
-<style scoped>
-.login-container {
-  max-width: 400px;
-  margin: 2rem auto;
-  padding: 2rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.form-group {
-  margin-bottom: 1rem;
-}
-
-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-}
-
-input {
-  width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-button {
-  width: 100%;
-  padding: 0.75rem;
-  background-color: #007bff;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-top: 1rem;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-button:disabled {
-  background-color: #cccccc;
-  cursor: not-allowed;
-}
-
-</style>
+<style></style>

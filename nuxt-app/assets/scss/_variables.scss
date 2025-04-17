@@ -1,0 +1,37 @@
+// Цвета
+$primary-color: #007bff;
+$secondary-color: #6c757d;
+$border-color: #ddd;
+$light-gray: #f2f2f2;
+$hover-gray: #e6e6e6;
+$success-bg: #d4edda;
+$success-text: #155724;
+$danger-bg: #f8d7da;
+$danger-text: #721c24;
+$disabled-bg: #cccccc;
+$text-gray: #666666;
+$white: #ffffff;
+$shadow-color: rgba(0, 0, 0, 0.1);
+$page-btn-bg: #f8f9fa;
+
+// Размеры шрифтов
+$base-font-size: 1rem;
+$small-font-size: 0.9rem;
+$badge-font-size: 12px;
+
+// Отступы
+$base-padding: 20px;
+$small-padding: 8px 12px;
+$badge-padding: 4px 8px;
+$button-padding: 0.75rem;
+$page-btn-padding: 8px 16px;
+
+// Радиусы границ
+$base-border-radius: 4px;
+$badge-border-radius: 12px;
+$login-border-radius: 8px;
+
+// Тени
+$box-shadow: 0 2px 4px $shadow-color;
+
+$hover-darken-amount: 10%;
